@@ -1,0 +1,117 @@
+<%- include("partials/header"); -%>
+
+    <!-- Main Section Strats -->
+    <main class="main-section">
+        <!-- Poster-section starts -->
+        <% let randomNum = Math.floor(Math.random() * 19 + 1);
+         const item = data[randomNum]; %>
+            <div class="poster-section"
+                style="background-image: url('https://image.tmdb.org/t/p/original<%= item.backdrop_path %>'); object-fit: fill;">
+                <% if (item.title===null || item.backdrop_path===null) { return; } %>
+
+                    <h1 class="poster-title">
+                        <%= item.title %>
+                    </h1>
+                    <h3 class="poster-info">
+                        Trending in Movies | Released on
+                        <%= item.release_date.slice(8) + '-' + item.release_date.slice(5, 7) + '-' + item.release_date.slice(0, 4) %>
+                    </h3>
+                    <p class="movie-info" id="movie-info">
+                        <%= item.overview %>
+                    </p>
+                    <div class="action-buttons-cont">
+                        <button class="action-button" onclick="location.href = '/<%= item.id %>#video-clip'"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="Hawkins-Icon Hawkins-Icon-Standard">
+                                <path
+                                    d="M4 2.69127C4 1.93067 4.81547 1.44851 5.48192 1.81506L22.4069 11.1238C23.0977 11.5037 23.0977 12.4963 22.4069 12.8762L5.48192 22.1849C4.81546 22.5515 4 22.0693 4 21.3087V2.69127Z"
+                                    fill="currentColor"></path>
+                            </svg> &nbsp;&nbsp; Play</button>
+                        <button class="action-button" onclick="location.href = '/<%= item.id %>'"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="Hawkins-Icon Hawkins-Icon-Standard">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3ZM1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM13 10V18H11V10H13ZM12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z"
+                                    fill="currentColor"></path>
+                            </svg> &nbsp;&nbsp; More Info</button>
+                    </div>
+                    <div class="bottom-poster-fade"></div>
+            </div>
+            <!-- Poster-section Ends -->
+
+            <!-- Movie-List Section Starts -->
+            <div class="content-section">
+                <div class="movie-section">
+                    <button class="prev-btn" id="prev-btn">
+                        <svg width="14.6" height="24" viewBox="0 0 16 27" xmlns="http://www.w3.org/2000/svg"
+                            class="_1xtBwk">
+                            <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#fff"
+                                class="_23HYg_"></path>
+                        </svg>
+                    </button>
+                    <h2 class="movie-genre">
+                        Trending Now
+                    </h2>
+                    <div class="movie-row" id="popular">
+                        <% data.forEach(item=> {
+                            if (item.backdrop_path === null || item.original_language !== "en") {
+                            return;
+                            }
+                            %>
+                            <div class="movie-item" onclick="location.href = '<%= item.id %>'">
+                                <div class="movie-img-container">
+                                    <img src="https://image.tmdb.org/t/p/w500<%= item.backdrop_path %>" alt="poster">
+                                </div>
+                                <h3 class="movie-name">
+                                    <%= item.original_title %>
+                                </h3>
+                            </div>
+                            <% }) %>
+                    </div>
+                    <button class="next-btn" id="next-btn">
+                        <svg width="14.6" height="24" viewBox="0 0 16 27" xmlns="http://www.w3.org/2000/svg"
+                            class="_1xtBwk">
+                            <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#fff"
+                                class="_23HYg_"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <% for (let i = 0; i < genreArray.length; i++) { %>
+                    <div class="movie-section">
+                        <button class="prev-btn">
+                            <svg width="14.6" height="24" viewBox="0 0 16 27" xmlns="http://www.w3.org/2000/svg" class="_1xtBwk">
+                                <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#fff" class="_23HYg_"></path>
+                            </svg>
+                        </button>
+                        <h2 class="movie-genre">
+                            <%= genreArray[i] %> Movies
+                        </h2>
+                        <div class="movie-row" id="<%= genreArray[i] %>">
+                            <% allGenreMovieData[i].forEach(item => { %>
+                                <% if (item.backdrop_path !== null && item.original_language === "en") { %>
+                                    <div class="movie-item" onclick="location.href = '/<%= item.id %>'">
+                                        <div class="movie-img-container">
+                                            <img src="https://image.tmdb.org/t/p/w500<%= item.backdrop_path %>" alt="poster">
+                                        </div>
+                                        <h3 class="movie-name">
+                                            <%= item.original_title %>
+                                        </h3>
+                                    </div>
+                                <% } %>
+                            <% }); %>
+                        </div>
+                        <button class="next-btn">
+                            <svg width="14.6" height="24" viewBox="0 0 16 27" xmlns="http://www.w3.org/2000/svg" class="_1xtBwk">
+                                <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z" fill="#fff" class="_23HYg_"></path>
+                            </svg>
+                        </button>
+                    </div>
+                <% } %>
+                
+
+            </div>
+            </div>
+            <!-- Movie-List Section Ends -->
+    </main>
+    <!-- Main section ends -->
+
+<%- include("partials/footer"); -%>
